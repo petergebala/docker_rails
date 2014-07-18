@@ -3,6 +3,7 @@ MAINTAINER Piotr Gębala <piotrek.gebala@gmail.com>
 
 # Update system
 RUN apt-get update
+RUN apt-get -y upgrade
 
 # Install required libraries
 RUN apt-get install -y \
