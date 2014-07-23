@@ -1,7 +1,7 @@
 ## petergebala/docker_rails
 
 Basic structure of Dockerfile for rails app.
-[Docker repository page] (https://registry.hub.docker.com/u/petergebala/docker-rails).
+[Docker repository page] (https://registry.hub.docker.com/u/petergebala/docker_rails).
 
 #### It does:
 
