@@ -15,15 +15,21 @@ RUN apt-get install -y \
             curl \
             zsh \
             vim \
-            libpq-dev
-
-RUN chsh -s /bin/zsh
+            libpq-dev \
+            openssh-server
 
 # Create user with sudo access without password
 RUN adduser deployer --home /home/deployer --shell /bin/zsh --disabled-password --gecos "" --ingroup sudo
 RUN echo 'deployer ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN service sudo restart
 RUN chmod 4755 /usr/bin/sudo
+
+# Prepare for ssh
+RUN mkdir /var/run/sshd
+RUN echo 'root:toor' |chpasswd
+RUN echo 'deployer:depl0yer' |chpasswd
+ADD id_rsa.pub /home/deployer/.ssh/authorized_keys
+RUN ssh-keygen -t rsa -N "" -f /home/deployer/.ssh/id_rsa
 
 # Copy Gemfile
 ADD Gemfile /home/deployer/app/
@@ -45,6 +51,11 @@ RUN /bin/bash -c -l "gem install bundler"
 RUN /bin/bash -c -l "bundle install"
 
 # Copy rest of files
+USER root
 ADD . /home/deployer/app/
+RUN chown -R deployer:sudo /home/deployer
 
 EXPOSE 3000
+EXPOSE 22
+
+CMD    ["sudo", "/usr/sbin/sshd", "-D"]
