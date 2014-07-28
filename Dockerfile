@@ -58,4 +58,7 @@ RUN chown -R deployer:sudo /home/deployer
 EXPOSE 3000
 EXPOSE 22
 
-CMD    ["sudo", "/usr/sbin/sshd", "-D"]
+ADD start.sh /home/deployer/
+RUN chmod +x /home/deployer/start.sh
+
+CMD ["/home/deployer/start.sh"]
