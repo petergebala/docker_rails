@@ -8,6 +8,7 @@ Basic structure of Dockerfile for rails app.
 - create user deployer
 - install ruby via rvm
 - add files to container and runs bundle install
+- prepare for ssh connections
 
 #### Instalation
 
@@ -17,3 +18,7 @@ Basic structure of Dockerfile for rails app.
 4. Build other containers if you need ex: postgres
 5. Attach to container and link other containers if you need to: `docker run -i -t petergebala/docker_rails /bin/bash -l`. 
    Inside container do what you need like run server, execute rake tasks, run tests. In repository modify the code which is sync with container.
+
+#### Additional information
+
+- to use ssh overwrite id_rsa.pub file with yours public key
